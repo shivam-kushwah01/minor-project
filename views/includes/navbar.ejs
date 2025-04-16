@@ -31,7 +31,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/listing/new">Add New Listings</a>
               </li>
-              <% if(!currUser){ %>
+              <% if(!locals.currUser){ %>
                 <li class="nav-item">
                   <a class="nav-link" href="/signup"><b>Sign Up</b></a>
                 </li>
@@ -39,7 +39,7 @@
                   <a class="nav-link active" href="/login"><b>Login</b></a>
                 </li>
               <% } %>
-              <% if(currUser){ %>
+              <% if(locals.currUser){ %>
               <li class="nav-item">
                 <a class="nav-link" href="/logout"><b>Logged Out</b></a>
               </li>
