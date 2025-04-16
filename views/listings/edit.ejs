@@ -1,0 +1,31 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <h1>Edit Listing</h1>
+    <form method="POST" action="/listing/<%= listing._id %>?_method=PUT" class="needs-validation">
+    <label for="title">Title</label>
+    <input type="text" value= "<%=listing.Title %>" name="Title" class="form-control">
+    <div class="valid-feedback">Nice title!</div>
+    <div class="invalid-feedback">Invalid Title!</div>
+    <br><br>
+    <label for="discription">Description</label><br>
+    <textarea name="Description" rows="5" cols="50" class="form-control"><%=listing.Description %></textarea>
+    <div class="valid-feedback">Valid Description</div>
+    <div class="invalid-feedback">Invalid Description!</div>
+    <br><br>
+    <label for="price">Price</label>
+    <input type="text" value="<%= listing.Price %>" name="Price" class="form-control">
+    <div class="valid-feedback">Valid Price</div>
+    <div class="invalid-feedback">Invalid Price!</div>
+    <br><br>
+    <label for="image">Image URL</label>
+    <input type="file" name="imageUrl" class="form-control" enctype="multipart/form-data">
+    <br><br>
+    <label for="location">Location</label>
+    <input type="text" value="<%= listing.Location %>" name="Location" class="form-control">
+    <div class="valid-feedback">Valid Location</div>
+    <div class="invalid-feedback">Location should be Valid!</div>
+    <br><br>
+    <button type="submit" class="btn btn-danger">Edit Listing</button>
+    </form>
+    <script src="/js/script.js"></script>
+</body>
