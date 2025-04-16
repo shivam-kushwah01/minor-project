@@ -16,7 +16,7 @@ const MongoStore = require('connect-mongo');
 const userRouter = require("./routes/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
-const expressError = require("./utils/expresserror.js");
+const expressError = require("./utils/expressError.js");
 const flash = require("connect-flash");
 const { Console } = require('console');
 
