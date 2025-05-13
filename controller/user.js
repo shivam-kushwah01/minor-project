@@ -32,7 +32,7 @@ module.exports.login = (req , res) => {
 
 module.exports.userLogin = async(req , res) => {
     req.flash("success", "Login successfully!!");
-    res.redirect("/listing");
+    res.redirect("/");
 };
 
 module.exports.logout =  (req , res , next) => {
@@ -41,6 +41,6 @@ module.exports.logout =  (req , res , next) => {
            return next(err);
         }
         req.flash("success","you are logged out");
-        res.redirect("/listing");
+        res.redirect("/");
     })
 };
