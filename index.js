@@ -85,9 +85,6 @@ async function main(){
     await mongoose.connect(dbUrl);
 }
 
-app.get("/", (req, res) => {
-  res.render("index.ejs", { messages: req.flash("success") });
-});
 
 app.all("*" , (req , res , next) => {
    next(new expressError(404 , "page not found!"));
