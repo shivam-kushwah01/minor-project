@@ -18,7 +18,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const expressError = require("./utils/expressError.js");
 const flash = require("connect-flash");
-
+const Listing = require("../model/listing");
 
 app.set("view engine" , "ejs");
 app.set("views" , path.join(__dirname , "views"));
@@ -85,9 +85,11 @@ async function main(){
     await mongoose.connect(dbUrl);
 }
 
-app.get("/" , (req ,res) => {
-    res.send('server is working', { messages: req.flash('success') });
+app.get("/" , async (req , res) => {
+    let allListings = await Listing.find();
+    res.render("listings/index.ejs" , { allListings });
 });
+
 
 app.all("*" , (req , res , next) => {
    next(new expressError(404 , "page not found!"));

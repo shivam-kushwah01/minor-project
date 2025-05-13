@@ -1,11 +1,5 @@
 const Listing = require("../model/listing");
 
-
-module.exports.index = async (req , res) => {
-    let allListings = await Listing.find();
-    res.render("listings/index.ejs" , { allListings });
-};
-
 module.exports.newListing = (req , res) => {
     if(!req.isAuthenticated()){
         req.flash("error" , "Please register before create a listing");

@@ -37,8 +37,7 @@ const fileFilter = (req, file, cb) => {
 
 const listingController = require("../controller/listing.js");
 
-router.route("/").get(wrapAsync(listingController.index))
-.post( upload.single('imageUrl') ,wrapAsync(listingController.createListing));
+router.route("/").post( upload.single('imageUrl') ,wrapAsync(listingController.createListing));
 
 
 router.get("/new" , listingController.newListing);
