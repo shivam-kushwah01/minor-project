@@ -28,7 +28,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs" , ejsMate);
 app.use(express.static(path.join(__dirname , "/public")));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+app.use(flash());
 
 const port = 8080 ;
 const dbUrl = process.env.ATLASDB_URL ;
