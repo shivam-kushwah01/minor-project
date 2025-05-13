@@ -15,7 +15,7 @@ module.exports.userSignup = async(req , res , next) => {
             next(err);
         }
         req.flash("success", `Hello ${username}, Welcome to Wonderlust!`);
-        res.redirect("/listing");
+        res.redirect("/");
     })  
     }
     catch(err){
