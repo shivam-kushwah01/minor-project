@@ -86,7 +86,7 @@ async function main(){
 }
 
 app.get("/", (req, res) => {
-  res.render("home", { messages: req.flash("success") });
+  res.render("index.ejs", { messages: req.flash("success") });
 });
 
 app.all("*" , (req , res , next) => {
