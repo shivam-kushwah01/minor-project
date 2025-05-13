@@ -18,7 +18,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const expressError = require("./utils/expressError.js");
 const flash = require("connect-flash");
-const Listing = require("../model/listing");
+const Listing = require("./model/listing.js");
 
 app.set("view engine" , "ejs");
 app.set("views" , path.join(__dirname , "views"));
