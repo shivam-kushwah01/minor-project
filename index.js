@@ -86,10 +86,7 @@ async function main(){
 }
 
 app.get("/", (req, res) => {
-  res.json({
-    status: "server is working",
-    messages: req.flash("success")
-  });
+  res.render("home", { messages: req.flash("success") });
 });
 
 app.all("*" , (req , res , next) => {
