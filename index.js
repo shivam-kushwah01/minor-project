@@ -105,8 +105,7 @@ app.all("*" , (req , res , next) => {
 });
 
 app.use((err ,  req , res , next) => {
-    let { statusCode = 404 , message = "Something Went Wrong!!"} = err;
-    res.status(statusCode).send(message);
+    let {message = "Something Went Wrong!!"} = err;
     res.render("error.ejs" , { message });
 });
 
