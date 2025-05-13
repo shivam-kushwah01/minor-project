@@ -31,18 +31,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const port = 8080 ;
 const dbUrl = process.env.ATLASDB_URL ;
 
-const store = MongoStore.create({
-    mongoUrl:dbUrl,
-    crypto : {
-        secret : process.env.SECRET,
-    },
-    touchAfter: 24*3600 ,
-});
-
-store.on("error",()=>{
-    console.log("ERROR IN MONGO SESSION STORE" , err);
-});
-
 const sessionOptions = {
     store: MongoStore.create({
         mongoUrl: dbUrl,
@@ -63,9 +51,6 @@ const sessionOptions = {
     },
 };
 
-app.get("/" , (req ,res) => {
-    res.send('server is working', { messages: req.flash('success') });
-});
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -99,6 +84,13 @@ main().then(() => {
 async function main(){
     await mongoose.connect(dbUrl);
 }
+
+app.get("/", (req, res) => {
+  res.json({
+    status: "server is working",
+    messages: req.flash("success")
+  });
+});
 
 app.all("*" , (req , res , next) => {
    next(new expressError(404 , "page not found!"));
