@@ -28,7 +28,6 @@ app.use(methodOverride("_method"));
 app.engine("ejs" , ejsMate);
 app.use(express.static(path.join(__dirname , "/public")));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(flash());
 
 const port = 8080 ;
 const dbUrl = process.env.ATLASDB_URL ;
@@ -46,14 +45,22 @@ store.on("error",()=>{
 });
 
 const sessionOptions = {
-    store : store,
+    store: MongoStore.create({
+        mongoUrl: dbUrl,
+        crypto: {
+            secret: process.env.SECRET,
+        },
+        touchAfter: 24 * 3600,
+    }),
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: true ,
-    cookie : {
-        expires : Date.now() + 7 * 24 * 60 * 60 * 1000 ,
-        maxAge : 7 * 24 * 60 * 60 * 1000 ,
-        httpOnly : true ,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     },
 };
 
