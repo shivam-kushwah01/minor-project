@@ -31,28 +31,39 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const port = 8080 ;
 const dbUrl = process.env.ATLASDB_URL ;
 
-const sessionOptions = {
-    store: MongoStore.create({
-        mongoUrl: dbUrl,
-        crypto: {
-            secret: process.env.SECRET,
-        },
-        touchAfter: 24 * 3600,
-    }),
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
-    },
-};
+// Add this BEFORE session middleware
+app.set('trust proxy', 1); 
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,          // Don't resave unchanged sessions
+  saveUninitialized: false, // Don't create sessions for unauthenticated users
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 14 * 24 * 60 * 60 // Session TTL (optional)
+  }),
+  cookie: {
+    secure: true,         // Required for HTTPS
+    httpOnly: true,
+    sameSite: 'none',     // Required for cross-site cookies
+    maxAge: 604800000     // 1 week
+  }
+}));
 
-app.use(session(sessionOptions));
+const sessionStore = MongoStore.create({
+  mongoUrl: process.env.MONGODB_URI,
+  autoRemove: 'interval',
+  autoRemoveInterval: 60 // Minutes
+});
+
+sessionStore.on('create', (sessionId) => {
+  console.log('Session created:', sessionId);
+});
+
+sessionStore.on('destroy', (sessionId) => {
+  console.log('Session destroyed:', sessionId);
+});
+
 app.use(flash());
 
 
