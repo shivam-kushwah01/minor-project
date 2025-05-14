@@ -59,8 +59,18 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser((user, done) => {
+  done(null, user.id); // Stores user.id in the session
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id); // Replace with your User model
+    done(null, user); // Attaches user to req.user
+  } catch (err) {
+    done(err);
+  }
+});
 
 
 app.use((req, res, next) => {
@@ -73,6 +83,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   console.log("Session:", req.session);
   console.log("User:", req.user);
+  console.log(req.isAuthenticated()); 
   next();
 });
 
