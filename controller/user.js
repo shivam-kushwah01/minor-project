@@ -42,7 +42,7 @@ module.exports.userLogin = async(req , res) => {
       console.log('Session after login:', req.session); // Debug
       res.redirect('/profile');
     });
-  })(req, res, next);
+  })(req, res);
 };
 // {
 //     req.flash("success", "Login successfully!!");
