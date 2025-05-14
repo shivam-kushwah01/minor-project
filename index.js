@@ -70,6 +70,12 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+  console.log("Session:", req.session);
+  console.log("User:", req.user);
+  next();
+});
+
 app.use("/", userRouter);
 app.use("/listing" , listingRouter);
 app.use("/listing" , reviewRouter);
@@ -87,7 +93,6 @@ async function main(){
 
 app.get("/" , async (req , res) => {
     let allListings = await Listing.find();
-    console.log(locals.currUser);
     res.render("listings/index.ejs" , { allListings });
 });
 
