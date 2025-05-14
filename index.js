@@ -87,7 +87,7 @@ async function main(){
 
 app.get("/" , async (req , res) => {
     let allListings = await Listing.find();
-    console.log(currUser);
+    console.log(locals.currUser);
     res.render("listings/index.ejs" , { allListings });
 });
 
