@@ -60,14 +60,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser((user, done) => {
-  done(null, user.id); // Stores user.id in the session
+  console.log('Serializing user ID:', user._id); // Check if this logs
+  done(null, user._id);
 });
 
+// Add to deserializeUser
 passport.deserializeUser(async (id, done) => {
+  console.log('Deserializing ID:', id); // Should match the serialized _id
   try {
-    const user = await User.findById(id); // Replace with your User model
-    done(null, user); // Attaches user to req.user
+    const user = await User.findById(id);
+    console.log('Found user:', user); // Should show user data
+    done(null, user);
   } catch (err) {
+    console.error('Deserialize error:', err);
     done(err);
   }
 });

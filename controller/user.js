@@ -40,7 +40,7 @@ module.exports.userLogin = async(req , res) => {
     req.login(user, (err) => {
       if (err) return next(err);
       console.log('Session after login:', req.session); // Debug
-      res.redirect('/profile');
+      res.redirect('/');
     });
   })(req, res);
 };
