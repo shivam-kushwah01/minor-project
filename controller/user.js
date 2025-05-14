@@ -1,4 +1,5 @@
 const User = require("../model/user");
+const passport = require("passport");
 
 module.exports.signup = (req , res) => {
     res.render("./user/signup.ejs");
