@@ -34,11 +34,12 @@ module.exports.login = (req , res) => {
 module.exports.userLogin = async(req , res) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
-    if (!user) return res.redirect('/login?error=auth-failed');
+    if (!user){req.flash("success", "Login successfully!!"); return res.redirect('/login') ;};
     
     // THIS IS CRUCIAL: Attaches user to session
     req.login(user, (err) => {
       if (err) return next(err);
+      req.flash("success", "Login successfully!!");
       console.log('Session after login:', req.session); // Debug
       res.redirect('/');
     });
