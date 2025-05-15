@@ -19,7 +19,9 @@ const reviewRouter = require("./routes/review.js");
 const expressError = require("./utils/expressError.js");
 const flash = require("connect-flash");
 const Listing = require("./model/listing.js");
+const passportLocalMongoose = require('passport-local-mongoose');
 
+userSchema.plugin(passportLocalMongoose);
 app.set("view engine" , "ejs");
 app.set("views" , path.join(__dirname , "views"));
 app.use(express.urlencoded({extended : true}));
