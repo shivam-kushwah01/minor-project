@@ -31,7 +31,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const port = 8080 ;
 const dbUrl = process.env.ATLASDB_URL ;
 
-app.set('trust proxy', 1); 
+// app.set('trust proxy', 1); 
 
 
 app.use(session({
