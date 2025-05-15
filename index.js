@@ -161,7 +161,7 @@ async function main(){
 
 app.get("/" , async (req , res) => {
     let allListings = await Listing.find();
-    res.render("listings/index.ejs" , { allListings });
+    res.render("listings/index.ejs" , { allListings , currUser: req.user });
 });
 
 
