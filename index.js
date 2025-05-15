@@ -39,7 +39,7 @@ app.use(session({
   resave: false,          // Don't resave unchanged sessions
   saveUninitialized: false, // Don't create sessions for unauthenticated users
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
+    mongoUrl: dbUrl,
     ttl: 14 * 24 * 60 * 60 // Session TTL (optional)
   }),
   cookie: {
