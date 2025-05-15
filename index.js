@@ -31,24 +31,17 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const port = 8080 ;
 const dbUrl = process.env.ATLASDB_URL ;
 
-// Add this BEFORE session middleware
 app.set('trust proxy', 1); 
 
-const sessionStore = MongoStore.create({
-  mongoUrl: process.env.MONGODB_URI,
-  autoRemove: 'interval',
-  autoRemoveInterval: 60 // Minutes
-});
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,          // Don't resave unchanged sessions
   saveUninitialized: false, // Don't create sessions for unauthenticated users
-  // store: MongoStore.create({
-  //   mongoUrl: process.env.MONGODB_URI,
-  //   ttl: 14 * 24 * 60 * 60 // Session TTL (optional)
-  // }),
-  store: sessionStore,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 14 * 24 * 60 * 60 // Session TTL (optional)
+  }),
   cookie: {
     secure: true,         // Required for HTTPS
     httpOnly: true,
@@ -57,17 +50,7 @@ app.use(session({
   }
 }));
 
-
-sessionStore.on('create', (sessionId) => {
-  console.log('Session created:', sessionId);
-});
-
-sessionStore.on('destroy', (sessionId) => {
-  console.log('Session destroyed:', sessionId);
-});
-
 app.use(flash());
-
 
 app.use(passport.initialize());
 app.use(passport.session());
