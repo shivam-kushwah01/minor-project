@@ -35,7 +35,7 @@ app.set('trust proxy', 1);
 
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SECRET,
   resave: false,          // Don't resave unchanged sessions
   saveUninitialized: false, // Don't create sessions for unauthenticated users
   store: MongoStore.create({
