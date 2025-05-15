@@ -34,27 +34,29 @@ const dbUrl = process.env.ATLASDB_URL ;
 // Add this BEFORE session middleware
 app.set('trust proxy', 1); 
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,          // Don't resave unchanged sessions
-//   saveUninitialized: false, // Don't create sessions for unauthenticated users
-//   store: MongoStore.create({
-//     mongoUrl: process.env.MONGODB_URI,
-//     ttl: 14 * 24 * 60 * 60 // Session TTL (optional)
-//   }),
-//   cookie: {
-//     secure: true,         // Required for HTTPS
-//     httpOnly: true,
-//     sameSite: 'none',     // Required for cross-site cookies
-//     maxAge: 604800000     // 1 week
-//   }
-// }));
-
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.MONGODB_URI,
   autoRemove: 'interval',
   autoRemoveInterval: 60 // Minutes
 });
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,          // Don't resave unchanged sessions
+  saveUninitialized: false, // Don't create sessions for unauthenticated users
+  // store: MongoStore.create({
+  //   mongoUrl: process.env.MONGODB_URI,
+  //   ttl: 14 * 24 * 60 * 60 // Session TTL (optional)
+  // }),
+  store: sessionStore,
+  cookie: {
+    secure: true,         // Required for HTTPS
+    httpOnly: true,
+    sameSite: 'none',     // Required for cross-site cookies
+    maxAge: 604800000     // 1 week
+  }
+}));
+
 
 sessionStore.on('create', (sessionId) => {
   console.log('Session created:', sessionId);
