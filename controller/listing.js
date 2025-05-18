@@ -33,7 +33,7 @@ module.exports.createListing = async (req , res) => {
     listing.owner = req.user._id ;
     await listing.save();
     req.flash("success" , "Place Added Successfully !!");
-    res.redirect("/listing");  
+    res.redirect("/");  
 };
 
 
@@ -68,7 +68,7 @@ module.exports.editListing = async(req , res) => {
         { Title, Description , Price , imageUrl, Location}, 
         { new: true, runValidators: true }
     );
-    res.redirect("/listing");
+    res.redirect("/");
 };
 
 module.exports.delete = async (req , res) => {
@@ -84,5 +84,5 @@ module.exports.delete = async (req , res) => {
     }
     let deleteListing = await Listing.findByIdAndDelete(id);
     console.log(deleteListing);
-    res.redirect("/listing");
+    res.redirect("/");
 };
