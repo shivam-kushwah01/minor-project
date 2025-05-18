@@ -42,7 +42,7 @@ router.route("/").post( upload.single('imageUrl') ,wrapAsync(listingController.c
 
 router.get("/new" , listingController.newListing);
 
-router.route("/:id").get(wrapAsync( listingController.show ) ).put(wrapAsync(listingController.editListing)).delete(wrapAsync(listingController.delete));
+router.route("/:id").get(wrapAsync( listingController.show , { currUser: req.user }) ).put(wrapAsync(listingController.editListing)).delete(wrapAsync(listingController.delete));
 
 router.get("/:id/edit" , wrapAsync(listingController.edit));
 
