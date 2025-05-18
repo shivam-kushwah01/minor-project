@@ -14,7 +14,7 @@ module.exports.show = async (req , res) => {
     res.render("listings/show.ejs" , { list });
 };
 
-module.exports.createListing = async (req , res , next) => {
+module.exports.createListing = async (req , res) => {
     if(!req.isAuthenticated()){
         req.flash("error" , "Please register before create a listing");
         return res.redirect("/login");

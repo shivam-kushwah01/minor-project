@@ -4,7 +4,11 @@
         <div class="col-8 offset-2">
             <h1><%= list.Title %></h1>
             <div class="card col listing-card" style="width: 55rem;">
-                <img src="<%= list.imageUrl.url %>" class="card-img-top" alt="Listing Image" style="height: 25rem; object-fit: cover;" >
+                <!-- <img src="<%= list.imageUrl.url %>" class="card-img-top" alt="Listing Image" style="height: 25rem; object-fit: cover;" > -->
+                 <img src="<%= list.imageUrl.url.replace(/\\/g, '/') %>" 
+     class="card-img-top" 
+     alt="Listing Image" 
+     style="height: 25rem;">
                 <p>image url : <%= list.imageUrl.url %></p>
                 <div class="card-body">
                   <p class="card-text">
