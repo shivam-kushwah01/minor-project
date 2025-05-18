@@ -4,7 +4,8 @@
         <div class="col-8 offset-2">
             <h1><%= list.Title %></h1>
             <div class="card col listing-card" style="width: 55rem;">
-                <img src="<%= list.imageUrl?.url %>" class="card-img-top" alt="Listing Image" style="height: 25rem;" >
+                <img src="<%= list.imageUrl.url %>" class="card-img-top" alt="Listing Image" style="height: 25rem;" >
+                <p><%= list.imageUrl.url %></p>
                 <div class="card-body">
                   <p class="card-text">
                   Owner : <%= list.owner.username %> <br>  
