@@ -11,8 +11,6 @@ module.exports.newListing = (req , res) => {
 module.exports.show = async (req , res) => {
     let { id } = req.params ;
     let list = await Listing.findById(id).populate({ path : "review" , populate : { path : "author"}}).populate("owner");
-    const imagePath = req.file.path.replace(/\\/g, '/');
-    await Listing.updateOne({_id: id}, {imageUrl: {url: imagePath}});
     res.render("listings/show.ejs" , { list });
 };
 
