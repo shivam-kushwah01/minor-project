@@ -71,11 +71,6 @@ footer div{
     width: 97vw !important;
 }
 
-.container{
-    margin: 0 !important;
-    flex: 1;
-}
-
 .listing-link{
     text-decoration: none;
     color: #222222;

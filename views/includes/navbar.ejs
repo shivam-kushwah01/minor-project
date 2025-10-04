@@ -1,51 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Navbar</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .navbar {
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 0.8rem 0;
+      background-color: #f8f9fa !important;
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      color: #dc3545 !important;
+      margin-right: 1rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+      color: #495057 !important;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #dc3545 !important;
+    }
+
+    .button1 {
+      border-color: #dc3545;
+      color: #dc3545;
+      white-space: nowrap;
+    }
+
+    .button1:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    /* Hide Home + Search on small screens */
+    @media (max-width: 767.98px) {
+      .navbar-nav.me-auto.mb-2.mb-lg-0, 
+      .navbar-nav.me-auto.ms-auto:first-of-type {
+        display: none !important;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Mobile menu overlay */
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255,255,255,0.95);
+      z-index: 1040;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .mobile-menu-overlay.show {
+      display: flex;
+    }
+
+    .mobile-menu-item {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-item:hover {
+      color: #dc3545;
+      transform: scale(1.05);
+    }
+
+    .close-mobile-menu {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: #333;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" href="/">Home</a>
-              </li>
-            </ul>
-            <ul class="navbar-nav me-auto ms-auto">
-              <li class="nav-item">
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-danger button1" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-                </form>
-              </li>
-            </ul>
-          </div>
-            <ul class="navbar-nav me-auto ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="/listing/new">Add New Listings</a>
-              </li>
-              <% if(typeof currUser === 'undefined' || !currUser) { %>
-  <li class="nav-item">
-    <a class="nav-link" href="/signup"><b>Sign Up</b></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="/login"><b>Login</b></a>
-  </li>
-  <% } %>
-<%if(currUser){%>
-  <li class="nav-item">
-    <a class="nav-link" href="/logout"><b>Log Out</b></a>
-  </li>
-<% } %>
-            </ul>
-          </div>
-      </nav>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand m-0" href="/"><i class="fa-regular fa-compass"></i></a>
+
+      <!-- Mobile Menu Button -->
+      <button class="navbar-toggler" type="button" id="mobileMenuToggle">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Desktop Menu -->
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">WonderLust</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav me-auto ms-auto">
+          <li class="nav-item">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-danger button1" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i><span> Search</span>
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right side (desktop only) -->
+      <ul class="navbar-nav ms-auto d-none d-md-flex">
+        <li class="nav-item">
+          <a class="nav-link" href="/listing/new">Add New Listings</a>
+        </li>
+        <% if(typeof currUser === 'undefined' || !currUser) { %>
+          <li class="nav-item"><a class="nav-link" href="/signup"><b>Sign Up</b></a></li>
+          <li class="nav-item"><a class="nav-link active" href="/login"><b>Login</b></a></li>
+        <% } %>
+        <% if(currUser){ %>
+          <li class="nav-item"><a class="nav-link" href="/logout"><b>Log Out</b></a></li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="close-mobile-menu" id="closeMobileMenu">
+      <i class="fas fa-times"></i>
+    </button>
+    <a class="mobile-menu-item" href="/listing/new">Add New Listings</a>
+    <% if(typeof currUser === 'undefined' || !currUser) { %>
+      <a class="mobile-menu-item" href="/signup"><b>Sign Up</b></a>
+      <a class="mobile-menu-item" href="/login"><b>Login</b></a>
+    <% } %>
+    <% if(currUser){ %>
+      <a class="mobile-menu-item" href="/logout"><b>Log Out</b></a>
+    <% } %>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+      const closeMobileMenu = document.getElementById('closeMobileMenu');
+      const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+
+      // Open menu
+      mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // Close menu
+      closeMobileMenu.addEventListener('click', function() {
+        mobileMenuOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+      });
+
+      // Close when clicking a menu item
+      mobileMenuItems.forEach(item => {
+        item.addEventListener('click', function() {
+          mobileMenuOverlay.classList.remove('show');
+          document.body.style.overflow = '';
+        });
+      });
+
+      // Close if clicking background
+      mobileMenuOverlay.addEventListener('click', function(e) {
+        if (e.target === mobileMenuOverlay) {
+          mobileMenuOverlay.classList.remove('show');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
