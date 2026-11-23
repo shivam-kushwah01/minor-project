@@ -33,7 +33,7 @@ export default function Home() {
 
   function toggleCategory(key) {
     const next = new URLSearchParams(params);
-    if (key === active) next.delete("category");
+    if (!key || key === active) next.delete("category");
     else next.set("category", key);
     setParams(next);
   }
@@ -46,6 +46,15 @@ export default function Home() {
     <>
       <div className="filters-bar">
         <div className="filters">
+          <button
+            type="button"
+            className={`filter ${!active ? "active" : ""}`}
+            onClick={() => toggleCategory("")}
+            aria-pressed={!active}
+          >
+            <div><i className="fa-solid fa-earth-asia"></i></div>
+            <p>All</p>
+          </button>
           {CATEGORIES.map((c) => (
             <button
               type="button"

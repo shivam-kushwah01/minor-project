@@ -20,35 +20,7 @@ body{
     color: #222222 !important ;
 }
 
-footer{
-    height: 10rem;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(218, 218, 218);
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    vertical-align: middle;
-}
-
-footer div{
-    margin: 1rem;
-}
-
-.f-info-privacy a{
-    text-decoration: none;
-    color: #222222;
-    margin-left: 1rem;
-}
-
-.f-info-privacy a:hover{
-    text-decoration: underline;
-}
-
-.f-info-social i{
-    font-size: 1.5rem;
-    margin-left: 2rem;
-}
+/* footer styles live in app.css */
 
 .listing-card{
     border: none !important;

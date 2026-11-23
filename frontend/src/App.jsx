@@ -10,6 +10,12 @@ import ListingForm from "./pages/ListingForm.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import About from "./pages/About.jsx";
+import Help from "./pages/Help.jsx";
+import Contact from "./pages/Contact.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import { useApp } from "./context.jsx";
 
 function RequireAuth({ children }) {
@@ -26,6 +32,7 @@ function RequireAuth({ children }) {
 export default function App() {
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <WakeBanner />
       <div className="container">
@@ -37,6 +44,11 @@ export default function App() {
           <Route path="/listing/:id/edit" element={<RequireAuth><ListingForm edit /></RequireAuth>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
