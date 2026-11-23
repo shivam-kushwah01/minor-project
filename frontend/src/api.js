@@ -34,9 +34,18 @@ export async function api(path, { method = "GET", body, signal } = {}) {
   pending++;
   const timer = setTimeout(() => emitSlow(true), SLOW_MS);
   try {
-    const res = await fetch(`${API_BASE}/api${path}`, opts);
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new ApiError(res.status, data.error || `Request failed (${res.status})`);
+    let res;
+    try {
+      res = await fetch(`${API_BASE}/api${path}`, opts);
+    } catch (err) {
+      if (err.name === "AbortError") throw err;
+      console.error(`Network error calling ${API_BASE || window.location.origin}/api${path}`, err);
+      throw new ApiError(0, `Can't reach the server (${API_BASE || "/api proxy"}). It may be starting up or misconfigured — please try again shortly.`);
+    }
+    const isJson = (res.headers.get("content-type") || "").includes("application/json");
+    const data = isJson ? await res.json().catch(() => ({})) : {};
+    if (!res.ok) throw new ApiError(res.status, data.error || `Server error (${res.status})`);
+    if (!isJson) throw new ApiError(res.status, "Unexpected response from server — check the API URL / proxy settings");
     return data;
   } finally {
     clearTimeout(timer);

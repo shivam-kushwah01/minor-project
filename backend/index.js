@@ -37,7 +37,10 @@ app.use(
     origin(origin, cb) {
       // Allow same-origin / server-to-server requests (no Origin header)
       if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-      cb(new Error(`Origin ${origin} not allowed by CORS`));
+      console.warn(
+        `CORS: blocked request from ${origin}. Add it to FRONTEND_URL (currently: ${allowedOrigins.join(", ")})`
+      );
+      cb(null, false);
     },
     credentials: true,
   })
