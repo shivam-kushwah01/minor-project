@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Listing = require("../model/listing");
+const { CATEGORIES } = require("../model/listing");
 const ExpressError = require("../utils/expressError");
 const { fileToImage, deleteImage } = require("../cloudConfig");
 
@@ -14,8 +15,15 @@ async function findOwnedListing(req) {
   return listing;
 }
 
+// Accepts "a,b", ["a","b"] or undefined -> array of valid categories (or undefined)
+function parseCategories(input) {
+  if (input === undefined) return undefined;
+  const list = [].concat(input).flatMap((v) => String(v).split(","));
+  return [...new Set(list.map((v) => v.trim().toLowerCase()).filter((v) => CATEGORIES.includes(v)))];
+}
+
 module.exports.index = async (req, res) => {
-  const listings = await Listing.find().select("Title Price imageUrl Location").lean();
+  const listings = await Listing.find().select("Title Price imageUrl Location category").lean();
   res.json(listings);
 };
 
@@ -38,6 +46,7 @@ module.exports.create = async (req, res) => {
     Description: description,
     Price: price,
     Location: location,
+    category: parseCategories(req.body.category) || [],
     imageUrl: fileToImage(req.file),
     owner: req.user._id,
   });
@@ -63,6 +72,8 @@ module.exports.update = async (req, res) => {
   if (description !== undefined) listing.Description = description;
   if (price !== undefined) listing.Price = price;
   if (location !== undefined) listing.Location = location;
+  const category = parseCategories(req.body.category);
+  if (category !== undefined) listing.category = category;
 
   const oldImage = listing.imageUrl ? listing.imageUrl.toObject() : null;
   if (req.file) listing.imageUrl = fileToImage(req.file);

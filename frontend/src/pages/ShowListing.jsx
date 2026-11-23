@@ -3,10 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { api, imageSrc, onImageError } from "../api.js";
 import { useApp } from "../context.jsx";
 import NotFound from "./NotFound.jsx";
+import { categoryLabel } from "../categories.js";
+import { formatINR, gstBreakdown } from "../gst.js";
 
 export default function ShowListing() {
   const { id } = useParams();
-  const { user, setFlash } = useApp();
+  const { user, setFlash, showTax } = useApp();
   const navigate = useNavigate();
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
@@ -26,6 +28,7 @@ export default function ShowListing() {
   if (!list) return <p className="text-center mt-5 text-muted">Loading…</p>;
 
   const isOwner = user && list.owner && user._id === list.owner._id;
+  const price = gstBreakdown(list.Price);
 
   async function deleteListing() {
     if (!confirm("Delete this listing?")) return;
@@ -74,18 +77,40 @@ export default function ShowListing() {
         <div className="card mx-auto mb-4" style={{ maxWidth: 700, backgroundColor: "transparent", border: "none" }}>
           <img
             src={imageSrc(list.imageUrl?.url)}
-            className="card-img-top img-fluid"
+            className="card-img-top img-fluid show-img"
             alt={list.Title}
-            style={{ height: "25rem", objectFit: "cover" }}
             onError={onImageError}
           />
-          <div className="card-body text-start">
-            <p className="card-text">
-              <strong>Owner:</strong> {list.owner?.username ?? "Unknown"}<br />
-              {list.Description}<br />
-              &#8377; {list.Price ? list.Price.toLocaleString("en-IN") : "Price not available"} / Night<br />
-              {list.Location}
-            </p>
+          <div className="card-body text-start mt-3">
+            {list.Location && (
+              <p className="listing-location fs-6 mb-2"><i className="fa-solid fa-location-dot"></i> {list.Location}</p>
+            )}
+            {list.category?.length > 0 && (
+              <div className="category-chips mb-3">
+                {list.category.map((c) => (
+                  <Link key={c} to={`/?category=${c}`} className="category-chip">{categoryLabel(c)}</Link>
+                ))}
+              </div>
+            )}
+            <p className="text-muted mb-2">Hosted by <strong>{list.owner?.username ?? "Unknown"}</strong></p>
+            <p className="card-text">{list.Description}</p>
+
+            {list.Price ? (
+              <div className="price-box">
+                <div className="price-box-head">
+                  <span><b>{formatINR(showTax ? price.total : price.base)}</b> / night</span>
+                  <span className="tax-note">{showTax ? `incl. ${price.percent}% GST` : "+ taxes"}</span>
+                </div>
+                <div className="price-row"><span>Room tariff (1 night)</span><span>{formatINR(price.base)}</span></div>
+                <div className="price-row"><span>GST @ {price.percent}%</span><span>{formatINR(price.gst)}</span></div>
+                <div className="price-row total"><span>Total per night</span><span>{formatINR(price.total)}</span></div>
+                <p className="price-foot">
+                  GST on hotel stays in India: 5% for tariffs up to ₹7,500/night, 18% above ₹7,500.
+                </p>
+              </div>
+            ) : (
+              <p className="text-muted">Price not available</p>
+            )}
           </div>
         </div>
 

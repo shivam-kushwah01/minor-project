@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api.js";
 import { useApp } from "../context.jsx";
 
@@ -7,6 +7,20 @@ export default function Navbar() {
   const { user, setUser, setFlash } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const [search, setSearch] = useState(params.get("q") || "");
+
+  // Keep the box in sync with the URL (e.g. after "Clear filters")
+  useEffect(() => {
+    setSearch(location.pathname === "/" ? params.get("q") || "" : "");
+  }, [location.pathname, params]);
+
+  function onSearch(e) {
+    e.preventDefault();
+    const q = search.trim();
+    navigate(q ? `/?q=${encodeURIComponent(q)}` : "/");
+  }
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -55,8 +69,15 @@ export default function Navbar() {
             </ul>
             <ul className="navbar-nav me-auto ms-auto nav-search">
               <li className="nav-item">
-                <form className="d-flex" role="search" onSubmit={(e) => e.preventDefault()}>
-                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <form className="d-flex" role="search" onSubmit={onSearch}>
+                  <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Search destinations"
+                    aria-label="Search destinations"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
                   <button className="btn btn-outline-danger button1" type="submit">
                     <i className="fa-solid fa-magnifying-glass"></i><span> Search</span>
                   </button>
@@ -79,6 +100,27 @@ export default function Navbar() {
         <button className="close-mobile-menu" onClick={close} aria-label="Close menu">
           <i className="fas fa-times"></i>
         </button>
+        <form
+          className="mobile-search"
+          role="search"
+          onSubmit={(e) => {
+            close();
+            onSearch(e);
+          }}
+        >
+          <input
+            className="form-control"
+            type="search"
+            placeholder="Search destinations"
+            aria-label="Search destinations"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="btn btn-danger" type="submit" aria-label="Search">
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+        <Link className="mobile-menu-item" to="/" onClick={close}>All Stays</Link>
         <Link className="mobile-menu-item" to="/listing/new" onClick={close}>Add New Listings</Link>
         {authLinks("mobile-menu-item")}
       </div>

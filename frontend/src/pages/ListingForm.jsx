@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../api.js";
 import { useApp } from "../context.jsx";
+import { CATEGORIES } from "../categories.js";
+import { formatINR, gstBreakdown } from "../gst.js";
 
-const EMPTY = { title: "", description: "", price: "", location: "" };
+const EMPTY = { title: "", description: "", price: "", location: "", category: [] };
 
 export default function ListingForm({ edit = false }) {
   const { id } = useParams();
@@ -23,7 +25,7 @@ export default function ListingForm({ edit = false }) {
           setFlash("error", "You don't have permission to edit");
           return navigate(`/listing/${id}`, { replace: true });
         }
-        setValues({ title: l.Title ?? "", description: l.Description ?? "", price: l.Price ?? "", location: l.Location ?? "" });
+        setValues({ title: l.Title ?? "", description: l.Description ?? "", price: l.Price ?? "", location: l.Location ?? "", category: l.category ?? [] });
         setLoading(false);
       })
       .catch((err) => {
@@ -33,6 +35,12 @@ export default function ListingForm({ edit = false }) {
   }, [edit, id, user, navigate, setFlash]);
 
   const set = (k) => (e) => setValues((v) => ({ ...v, [k]: e.target.value }));
+  const toggleCategory = (key) =>
+    setValues((v) => ({
+      ...v,
+      category: v.category.includes(key) ? v.category.filter((c) => c !== key) : [...v.category, key],
+    }));
+  const preview = values.price !== "" && Number(values.price) > 0 ? gstBreakdown(values.price) : null;
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -40,7 +48,7 @@ export default function ListingForm({ edit = false }) {
     if (!e.currentTarget.checkValidity()) return;
 
     const fd = new FormData();
-    Object.entries(values).forEach(([k, v]) => fd.append(k, v));
+    Object.entries(values).forEach(([k, v]) => fd.append(k, Array.isArray(v) ? v.join(",") : v));
     if (image) fd.append("image", image);
 
     setBusy(true);
@@ -74,6 +82,27 @@ export default function ListingForm({ edit = false }) {
         <label htmlFor="price" className="form-label">Price</label>
         <input id="price" type="number" min="0" placeholder="Enter price" className="form-control" required value={values.price} onChange={set("price")} />
         <div className="invalid-feedback">Please enter a valid price.</div>
+        {preview && (
+          <div className="form-text">
+            Guests pay {formatINR(preview.total)} / night incl. {preview.percent}% GST ({formatINR(preview.gst)})
+          </div>
+        )}
+        <br />
+
+        <label className="form-label d-block">Categories</label>
+        <div className="category-picker">
+          {CATEGORIES.map((c) => (
+            <button
+              type="button"
+              key={c.key}
+              className={`category-chip ${values.category.includes(c.key) ? "selected" : ""}`}
+              onClick={() => toggleCategory(c.key)}
+              aria-pressed={values.category.includes(c.key)}
+            >
+              <i className={c.icon}></i> {c.label}
+            </button>
+          ))}
+        </div>
         <br />
 
         <label htmlFor="image" className="form-label">{edit ? "Replace Image (optional)" : "Upload Image"}</label>

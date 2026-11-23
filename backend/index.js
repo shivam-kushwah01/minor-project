@@ -97,6 +97,7 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   let status = err.statusCode || err.status || err.http_code || 500;
   let message = typeof err === "string" ? err : err.message || "Something went wrong";
+  if (err.name === "ValidationError" || err.name === "CastError") status = 400;
   if (err instanceof multer.MulterError) {
     status = 400;
     if (err.code === "LIMIT_FILE_SIZE") message = "Image must be smaller than 5MB";

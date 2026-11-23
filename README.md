@@ -93,10 +93,24 @@ npm run migrate:images -- --dry-run   # preview
 npm run migrate:images
 ```
 
-## Seeding
+## Seeding demo data
+
+`backend/init/data.js` holds 24 demo stays across India (images from Unsplash, uploaded to Cloudinary).
 
 ```bash
 cd backend
-# set SEED_OWNER_ID in .env to an existing user's _id
-npm run seed
+npm run seed              # add the demo listings
+npm run seed -- --fresh   # DELETE all listings + reviews first, then add them
 ```
+
+Listings are owned by a demo user `wonderlust`. Its password comes from `SEED_DEMO_PASSWORD`;
+if that isn't set, a random one is printed the first time the user is created.
+
+## Categories & GST
+
+Each listing has one or more categories: `trending`, `rooms`, `castles`, `pools`, `camping`, `ghats`.
+These drive the filter icons on the home page (`/?category=pools`); the navbar search filters by
+title/location (`/?q=goa`).
+
+"Display total after taxes" applies Indian GST on hotel accommodation (from 22 Sep 2025):
+**5%** for tariffs up to ₹7,500 per night, **18%** above ₹7,500 (see `frontend/src/gst.js`).
