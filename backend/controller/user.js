@@ -12,6 +12,15 @@ module.exports.signup = async (req, res, next) => {
     if (!username || !password || !email) {
       return res.status(400).json({ error: "Username, email and password are required" });
     }
+    if (!/^[A-Za-z0-9_]{3,15}$/.test(username)) {
+      return res.status(400).json({ error: "Username must be 3-15 letters, numbers or underscores" });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "Please enter a valid email address" });
+    }
+    if (String(password).length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+    }
     const registeredUser = await User.register(new User({ email, username }), password);
     req.login(registeredUser, (err) => {
       if (err) return next(err);

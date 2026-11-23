@@ -10,6 +10,7 @@ export default function Privacy() {
         <ul>
           <li><strong>Account details:</strong> your username, email address and password when you sign up. Passwords are stored only as a salted hash, never in plain text.</li>
           <li><strong>Content you add:</strong> listings (title, description, price, location, categories, photos) and reviews (rating and comment), together with which account created them.</li>
+          <li><strong>Messages you send us:</strong> your name, email address, topic and message when you use the Contact page.</li>
           <li><strong>Session cookie:</strong> a cookie that keeps you logged in. It expires after 7 days or when you log out.</li>
           <li><strong>Preferences on your device:</strong> whether “Display total after taxes” is switched on is saved in your browser's local storage, not on our servers.</li>
         </ul>
@@ -48,7 +49,7 @@ export default function Privacy() {
         <p>
           Hosts can delete their listings at any time, which also deletes the listing's photo and reviews.
           Reviewers can delete their reviews. To delete your account and associated data,{" "}
-          <Link to="/contact">contact us</Link> from the email address on your account.
+          <Link to="/contact">contact us</Link> using the email address on your account.
         </p>
       </section>
 
@@ -63,7 +64,7 @@ export default function Privacy() {
       <section>
         <h2>7. Contact</h2>
         <p>
-          Questions about this policy: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>, {SITE.company}, {SITE.city}.
+          Questions about this policy? <Link to="/contact">Send us a message</Link>. {SITE.company}.
         </p>
       </section>
     </InfoPage>

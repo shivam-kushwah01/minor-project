@@ -575,3 +575,246 @@
   padding: 1.5rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
+
+.footer-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  border: 1px solid #222;
+  border-radius: 2rem;
+  padding: 0.45rem 1rem;
+  color: #222 !important;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+.footer-contact-btn:hover {
+  background: #222;
+  color: #fff !important;
+}
+
+/* ---- Contact (form only) ---- */
+.contact-wrap {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+.contact-success {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+.contact-success > i {
+  font-size: 3rem;
+  color: #198754;
+  margin-bottom: 1rem;
+}
+.contact-success h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* ---- Login / Sign up ---- */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 0 1rem;
+}
+.auth-card {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  width: 100%;
+  max-width: 60rem;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+.auth-aside {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  min-height: 36rem;
+}
+.auth-aside::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+.auth-aside-inner {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  color: #fff;
+}
+.auth-aside-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff !important;
+  text-decoration: none;
+}
+.auth-aside-brand .fa-compass {
+  color: #fff;
+  font-size: 1.6rem;
+  margin-right: 0.35rem;
+}
+.auth-aside ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.auth-aside li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  margin-top: 0.85rem;
+  font-size: 0.98rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.auth-aside li i {
+  width: 1.2rem;
+  text-align: center;
+}
+.auth-main {
+  padding: 2.75rem 2.5rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.auth-head {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+.auth-logo {
+  font-size: 2.4rem !important;
+  margin-bottom: 0.5rem;
+}
+.auth-head h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.auth-head p {
+  color: #6a6a6a;
+  margin: 0;
+}
+.auth-main .form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.auth-main .input-group-text {
+  background: #fafafa;
+  color: #777;
+}
+.auth-main .form-control {
+  height: 2.9rem;
+}
+.auth-main .form-control:focus {
+  border-color: #fe424d;
+  box-shadow: 0 0 0 0.2rem rgba(254, 66, 77, 0.15);
+}
+.password-toggle {
+  cursor: pointer;
+  border-left: 0;
+}
+.password-toggle:hover {
+  color: #222;
+}
+.auth-submit {
+  width: 100%;
+  height: 3rem;
+  font-weight: 600;
+  border-radius: 0.6rem;
+  margin-bottom: 0 !important;
+}
+.auth-foot {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #eee;
+  color: #555;
+}
+.auth-foot a,
+.auth-terms a {
+  color: #fe424d;
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-foot a:hover,
+.auth-terms a:hover {
+  text-decoration: underline;
+}
+.auth-terms {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0.9rem 0 0;
+}
+.pw-strength {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.pw-bars {
+  display: flex;
+  gap: 0.3rem;
+  flex: 1;
+}
+.pw-bars span {
+  flex: 1;
+  height: 0.3rem;
+  border-radius: 1rem;
+  background: #e5e5e5;
+  transition: background 0.2s ease;
+}
+.pw-strength small {
+  min-width: 4.5rem;
+  text-align: right;
+  font-weight: 600;
+}
+.pw-strength.weak .on { background: #dc3545; }
+.pw-strength.weak small { color: #dc3545; }
+.pw-strength.fair .on { background: #fd7e14; }
+.pw-strength.fair small { color: #fd7e14; }
+.pw-strength.good .on { background: #20c997; }
+.pw-strength.good small { color: #13976f; }
+.pw-strength.strong .on { background: #198754; }
+.pw-strength.strong small { color: #198754; }
+@media (max-width: 767.98px) {
+  .auth-page {
+    padding-top: 1.5rem;
+  }
+  .auth-card {
+    grid-template-columns: 1fr;
+  }
+  .auth-aside {
+    display: none;
+  }
+  .auth-main {
+    padding: 2rem 1.25rem;
+  }
+}
+
+.contact-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.contact-fields .span-2 {
+  grid-column: 1 / -1;
+}
+@media (max-width: 575.98px) {
+  .contact-fields {
+    grid-template-columns: 1fr;
+  }
+}
+/* Hide the browser's built-in password reveal button (Edge) - we have our own toggle */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

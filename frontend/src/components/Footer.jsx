@@ -54,11 +54,9 @@ export default function Footer() {
               <li><Link to="/privacy">Privacy policy</Link></li>
               <li><Link to="/terms">Terms &amp; conditions</Link></li>
             </ul>
-            <div className="footer-contact">
-              <p><i className="fa-regular fa-envelope"></i> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
-              <p><i className="fa-solid fa-location-dot"></i> {SITE.city}</p>
-              <p><i className="fa-regular fa-clock"></i> {SITE.supportHours}</p>
-            </div>
+            <Link to="/contact" className="footer-contact-btn">
+              <i className="fa-regular fa-message"></i> Send us a message
+            </Link>
           </div>
         </div>
 

@@ -17,6 +17,7 @@ const User = require("./model/user.js");
 const authRouter = require("./routes/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
+const contactRouter = require("./routes/contact.js");
 const ExpressError = require("./utils/expressError.js");
 
 const app = express();
@@ -89,6 +90,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use("/api/auth", authRouter);
 app.use("/api/listings", listingRouter);
 app.use("/api/listings/:id/reviews", reviewRouter);
+app.use("/api/contact", contactRouter);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Not found"));
