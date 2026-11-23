@@ -58,11 +58,19 @@ export function warmUp() {
   fetch(`${API_BASE}/api/health`, { credentials: "include" }).catch(() => {});
 }
 
+export const PLACEHOLDER_IMAGE = "/images/placeholder.svg";
+
+// <img onError={onImageError}> swaps a broken image for the placeholder (once).
+export function onImageError(e) {
+  e.currentTarget.onerror = null;
+  e.currentTarget.src = PLACEHOLDER_IMAGE;
+}
+
 // Seed data stores paths like "../../images/x.jpeg" (served by this frontend),
 // uploads are "/uploads/..." or "uploads\\x" (served by the backend),
 // and Cloudinary images are full https URLs.
 export function imageSrc(url) {
-  if (!url) return "/images/fort.webp";
+  if (!url) return PLACEHOLDER_IMAGE;
   // Cloudinary: let it pick the best format (webp/avif) and compression per browser
   if (url.includes("res.cloudinary.com") && url.includes("/upload/") && !url.includes("/upload/f_auto")) {
     return url.replace("/upload/", "/upload/f_auto,q_auto/");

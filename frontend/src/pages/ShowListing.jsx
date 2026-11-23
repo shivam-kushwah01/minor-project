@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { api, imageSrc } from "../api.js";
+import { api, imageSrc, onImageError } from "../api.js";
 import { useApp } from "../context.jsx";
 import NotFound from "./NotFound.jsx";
 
@@ -77,7 +77,7 @@ export default function ShowListing() {
             className="card-img-top img-fluid"
             alt={list.Title}
             style={{ height: "25rem", objectFit: "cover" }}
-            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/images/fort.webp"; }}
+            onError={onImageError}
           />
           <div className="card-body text-start">
             <p className="card-text">

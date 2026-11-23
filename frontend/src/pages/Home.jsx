@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, imageSrc } from "../api.js";
+import { api, imageSrc, onImageError } from "../api.js";
 
 const FILTERS = [
   ["fa-solid fa-fire", "Trending"],
@@ -62,7 +62,7 @@ export default function Home() {
         {listings?.map((list) => (
           <div className="card listing-card" key={list._id}>
             <Link to={`/listing/${list._id}`} className="listing-link">
-              <img src={imageSrc(list.imageUrl?.url)} className="card-img-top" alt={list.Title} style={{ height: "20rem", objectFit: "cover" }} loading="lazy" />
+              <img src={imageSrc(list.imageUrl?.url)} onError={onImageError} className="card-img-top" alt={list.Title} style={{ height: "20rem", objectFit: "cover" }} loading="lazy" />
               <div className="card-img-overlay"></div>
               <div className="card-body">
                 <p className="card-text">

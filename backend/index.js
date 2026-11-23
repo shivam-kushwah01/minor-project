@@ -11,6 +11,7 @@ const LocalStrategy = require("passport-local");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const multer = require("multer");
+const { useCloudinary } = require("./cloudConfig.js");
 
 const User = require("./model/user.js");
 const authRouter = require("./routes/user.js");
@@ -53,7 +54,11 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Lightweight endpoint for the frontend warm-up ping and uptime monitors.
 // Registered before the session middleware so it never touches MongoDB.
 app.get(["/", "/api/health"], (req, res) => {
-  res.json({ status: "ok", db: mongoose.connection.readyState === 1 });
+  res.json({
+    status: "ok",
+    db: mongoose.connection.readyState === 1,
+    imageStorage: useCloudinary ? "cloudinary" : "local-disk (images will be lost on restart!)",
+  });
 });
 
 app.use(
